@@ -1,0 +1,42 @@
+$spaceamounts: (0, 1, 2, 3, 4, 5); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right);
+
+@each $space in $spaceamounts {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}-#{$space} {
+            margin-#{$side}: #{$space*10}px !important;
+        }
+
+        .p#{str-slice($side, 0, 1)}-#{$space} {
+            padding-#{$side}: #{$space*10}px !important;
+        }
+    }
+    .mx-#{$space} {
+        margin-left: #{$space*10}px !important;
+        margin-right: #{$space*10}px !important;
+    }
+    .my-#{$space} {
+        margin-top: #{$space*10}px !important;
+        margin-bottom: #{$space*10}px !important;
+    }
+    .px-#{$space} {
+        padding-left: #{$space*10}px !important;
+        padding-right: #{$space*10}px !important;
+    }
+    .py-#{$space} {
+        padding-top: #{$space*10}px !important;
+        padding-bottom: #{$space*10}px !important;
+    }
+    .pa-#{$space} {
+        padding: #{$space*10}px !important;
+    }
+}
+
+%overlay {
+    position:absolute;
+    content: "";
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
