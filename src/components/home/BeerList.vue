@@ -34,7 +34,7 @@ export default {
         if(oldVal.scrollTop !== null) {
           const el = this.$refs.list
           const loadPoint = el.clientHeight - (window.innerHeight * 2)
-          if(val.scrollTop > loadPoint && this.$store.state.latestFetch.length > 0) {
+          if(val.scrollTop > loadPoint && this.$store.state.latestFetch.length >= 24) {
             this.loading = true;
             this.$store.commit("nextPage")
             this.$store.dispatch("fetchBeers", this.$store.state.params).then(() => {
