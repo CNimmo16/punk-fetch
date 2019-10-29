@@ -32,9 +32,6 @@ export default {
       return this.$store.state.beers.length > 0 || this.$store.state.fetching
     }
   },
-  created() {
-    this.$store.dispatch("fetchBeers", {})
-  },
 }
 </script>
 

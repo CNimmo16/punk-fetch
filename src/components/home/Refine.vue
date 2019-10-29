@@ -14,10 +14,10 @@
       <b-button class="reset-button button has-background-grey-lighter has-text-dark" @click.prevent="reset()">Reset filters</b-button>
     </p>
     <p class="is-size-6">ABV</p>
-    <b-slider class="px-1" v-model="abvRange" :min="0" :max="60" :step="0.5" lazy :custom-formatter="x => x + '%'"></b-slider>
+    <b-slider class="px-1" v-model="refine.abvRange" :min="0" :max="60" :step="0.5" lazy :custom-formatter="x => x + '%'"></b-slider>
 
     <p class="is-size-6">First brewed</p>
-    <b-slider class="px-1" v-model="dateRange" :min="2007" :max="2019" :step="1" lazy></b-slider>
+    <b-slider class="px-1" v-model="refine.dateRange" :min="2007" :max="2019" :step="1" lazy></b-slider>
 
   </div>
 </template>
@@ -28,14 +28,18 @@ export default {
   props: ["loading"],
   data() {
     return {
-      sortList: ["abv", "first_brewed"],
-      sortBy: "abv",
+      refine: {
+        searchTerm: "",
+        abvRange: [0,60],
+        dateRange: [2007, 2019],
+      },
       searchInput: "",
-      searchTerm: "",
-      abvRange: [0,60],
-      dateRange: [2007, 2019],
       watchParams: false
     }
+  },
+  created() {
+    this.refine = this.$store.state.refine
+    this.searchInput = this.refine.searchTerm
   },
   mounted() {
     this.$nextTick(() => {
@@ -45,6 +49,7 @@ export default {
   watch: {
     params() {
       if(this.watchParams) {
+        this.$store.commit("setRefine", this.refine)
         this.$store.commit("setFetching")
         this.$store.commit("resetPagination")
         setTimeout(() => {
@@ -56,26 +61,26 @@ export default {
   computed: {
     params() {
       let p = {
-        abv_gt: this.abvRange[0],
-        abv_lt: this.abvRange[1],
-        brewed_after: "01-" + this.dateRange[0],
-        brewed_before: "12-" + this.dateRange[1],
+        abv_gt: this.refine.abvRange[0],
+        abv_lt: this.refine.abvRange[1],
+        brewed_after: "01-" + this.refine.dateRange[0],
+        brewed_before: "12-" + this.refine.dateRange[1],
       }
-      if(this.searchTerm.length > 0) {
-        p.beer_name = this.searchTerm
+      if(this.refine.searchTerm.length > 0) {
+        p.beer_name = this.refine.searchTerm
       }
       return p
     }
   },
   methods: {
     reset() {
-      this.abvRange = [0,60],
-      this.dateRange = [2007, 2019]
+      this.refine.abvRange = [0,60],
+      this.refine.dateRange = [2007, 2019]
+      this.refine.searchTerm = ""
       this.searchInput = ""
-      this.searchTerm = ""
     },
     search() {
-      this.searchTerm = this.searchInput
+      this.refine.searchTerm = this.searchInput
     }
   }
 }

@@ -17,6 +17,7 @@ export default {
     this.setWindowState();
     window.addEventListener("resize", this.setWindowState)
     window.addEventListener("scroll", this.setWindowState)
+    this.$store.dispatch("fetchBeers", {})
   },
   methods: {
     setWindowState: debounce(function() {

@@ -16,6 +16,11 @@ export default new Vuex.Store({
     page: 1,
     beers: [],
     latestFetch: [],
+    refine: {
+      searchTerm: "",
+      abvRange: [0,60],
+      dateRange: [2007, 2019],
+    },
     params: {},
     fetching: false
   },
@@ -23,6 +28,9 @@ export default new Vuex.Store({
     win: state => state.win
   },
   mutations: {
+    setRefine(state, refinements) {
+      state.refine = refinements;
+    },
     setParams(state, params) {
       state.params = params;
     },
